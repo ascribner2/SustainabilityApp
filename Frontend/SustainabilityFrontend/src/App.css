@@ -1,0 +1,90 @@
+/* Login Background */
+#loginBackground {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #373737;
+  min-height: 100vh;
+}
+
+/* Login Box */
+#loginBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  background-color: #484848;
+  height: auto;
+  width: auto;
+  border-radius: .375rem; 
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.0rem;
+}
+
+/* Login Header */
+#loginBoxHeader {
+  width: auto;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 2.0rem;
+  color: #FFFFFF;
+}
+
+/* Text in the login box */
+.loginBoxText {
+  width: auto;
+}
+
+/* Credential Box */
+.credentialBox {
+  border-radius: 9999px;
+  border: 2px solid #727272;
+  padding: 8px 20px;
+  width: 250px;
+  margin-bottom: 1.0rem;
+}
+
+/* Cred Box text */
+.credentialBox p {
+  width: auto;
+  color: #727272;
+  font-size: 1.115rem;
+  line-height: 1.75rem;
+}
+
+/* Login Button */
+#loginButton {
+  display: flex;
+  justify-content: center;
+  background-color: #D9D9D9;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  width: 250px;
+  margin-bottom: 5px;
+  margin-top: 1.0rem;
+}
+
+/* Login Button text */
+#loginButton p {
+  width: auto;
+  color: #727272;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 2rem;
+}
+
+/* Register Link */
+#registerLinkPretext {
+  width: auto;
+  color: #727272;
+}
+
+#registerLink {
+  width: auto;
+  color: #D9D9D9;
+  font-weight: 600;
+}
