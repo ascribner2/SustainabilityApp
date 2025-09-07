@@ -1,11 +1,22 @@
 import styles from "./Login.module.css"
+import {useNavigate} from 'react-router-dom'
+import {useState} from 'react'
 
 function Login() {
+    const [invalid, setInvalid] = useState(false)
+    let navigate = useNavigate();
+    
+
     function login(LoginData) {
         let username = LoginData.get("username");
         let password = LoginData.get("password");
 
         console.log(username, password);
+        if (username = "test" && password == "Test") {
+            navigate('/')
+        } else {
+            setInvalid(true)
+        }
     }
 
     return (
@@ -18,6 +29,8 @@ function Login() {
                 <input className={styles.credentialBox} name="username" placeholder="Username"/>
 
                 <input type="password" className={styles.credentialBox} name="password" placeholder="Password"/>
+
+                {invalid ? <p className={styles.invalid}>Incorrect Username or Password</p> : <></>}
 
                 <input type="submit" className={styles.loginButton} name="loginButton" value="Login"/>
 
