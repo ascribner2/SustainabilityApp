@@ -1,30 +1,21 @@
 import './App.css'
+import Login from './Pages/Login/Login.jsx'
+import Layout from './Pages/Layout/Layout.jsx'
+import Dashboard from './Pages/Dashboard/Dashboard.jsx'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
+  
 
   return (
-    <>
-      <div id="loginBackground">
-        <div id="loginBox">
-          <p id="loginBoxHeader">Login</p>
-
-          {/* Crendentials */}
-          <div class="credentialBox">
-            <p class="loginBoxText">Username</p>
-          </div>
-          <div class="credentialBox">
-            <p class="loginBoxText">Password</p>
-          </div>
-
-          <div id="loginButton">
-            <p>Login</p>
-          </div>
-
-          {/* Register link */}
-          <p id="registerLinkPretext" class="loginBoxText">Don't have an account? <span id="registerLink">Register</span></p>
-        </div>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout/>}>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/" element={<Dashboard />}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

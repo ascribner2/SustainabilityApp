@@ -1,0 +1,8 @@
+.LayoutBody {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: top;
+  background-color: #373737;
+  min-height: 100vh;
+}
