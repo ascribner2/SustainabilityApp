@@ -1,0 +1,24 @@
+/* Header */
+.Header {
+    color: #D9D9D9;
+    font-weight: 600;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    margin-bottom: .5rem;
+    margin-top: 1.5rem;
+}
+
+/* Widget Box */
+.widgetBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #484848;
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    border-radius: .375rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}

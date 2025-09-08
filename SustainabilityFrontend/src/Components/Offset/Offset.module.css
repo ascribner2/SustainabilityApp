@@ -1,0 +1,36 @@
+/* Header */
+.Header {
+    color: #D9D9D9;
+    font-weight: 600;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    margin-bottom: .5rem;
+}
+
+.smallNumber {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+/* Widget Box */
+.widgetBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #484848;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: .375rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Offset Amount */
+.offsetAmount {
+    color: #D9D9D9;
+    font-weight: 600;
+    font-size: 2.0rem;
+    line-height: 2.0rem;
+}

@@ -1,0 +1,30 @@
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: auto;
+}
+
+/* Top row */
+.topRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Top Row text */
+.topText {
+    color: #D9D9D9;
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 1.75rem;
+}
+
+/* Bottom row text */
+.bottomText {
+    color: #D9D9D9;
+    font-size: 1.1rem;
+    line-height: 1.25rem;
+}
