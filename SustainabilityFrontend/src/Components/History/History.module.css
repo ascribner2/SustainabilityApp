@@ -23,3 +23,18 @@
     gap: 1.5rem;
     overflow-y: auto;
 }
+
+/* Styling the scroll bar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #484848;
+  border-radius: .385px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #646464;
+  border-radius: 10px;
+}

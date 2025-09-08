@@ -1,0 +1,61 @@
+/* The container for the drop down */
+.DropdownContainer {
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 1rem;
+}
+
+/* The dropdown selector that user clicks on */
+.Dropdown {
+    background-color: #5D5D5D;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 1.0rem;
+    padding-right: 1.0rem;
+    border-radius: 0.375rem;
+    user-select: none;
+}
+
+.Dropdown:hover {
+    background-color: #5a5a5a;
+    cursor: pointer;
+}
+
+/* Dropdown text */
+.Dropdown p {
+    color: #D9D9D9;
+    font-weight: 600;
+    font-size: 1.0rem;
+    line-height: 1.2rem;
+}
+
+/* Drop down box */
+.DropdownBox {
+    position: absolute;
+    top: 35px;
+    left: 0px;
+    z-index: 20;
+    height: auto;
+    max-height: 200px;
+    width: 100%;
+    background-color: #646464;
+    border-radius: 0.375rem;
+}
+
+/* Dropdown Items */
+.DropdownItem {
+    color: #D9D9D9;
+    font-weight: 600;
+    font-size: 1.0rem;
+    line-height: 1.2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 1.0rem;
+    padding-right: 1.0rem;
+}
+
+.DropdownItem:hover {
+    background-color: #5a5a5a;
+    cursor: pointer;
+}

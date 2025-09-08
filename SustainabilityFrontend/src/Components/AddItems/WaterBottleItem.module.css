@@ -1,0 +1,14 @@
+.ounces {
+    background-color: #484848;
+    border-radius: 1rem;
+    border: 2px solid #727272;
+    padding: 4px 15px;
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 1.0rem;
+    font-size: 1.115rem;
+    line-height: 1.75rem;
+    color: #b1b0b0;
+    outline: none;
+    box-sizing: border-box;
+}
