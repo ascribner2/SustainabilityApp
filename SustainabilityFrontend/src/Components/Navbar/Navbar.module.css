@@ -1,0 +1,28 @@
+.navBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 100%;
+    max-width: 62rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.LogoutButton {
+    display: flex;
+    justify-content: center;
+    background-color: #D9D9D9;
+    border-radius: .385rem;
+    cursor: pointer;
+    padding: .25rem .5rem;
+}
+
+.LogoutButton p {
+    user-select: none;
+    color: #727272;
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 2rem;
+}

@@ -2,12 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from './History.module.css'
 import HistoryEntry from '../HistoryEntry/HistoryEntry.jsx'
 
-function HistoryWidget() {
-    const [itemType, setItemType] = useState(<></>)
-
-    useEffect(() => {
-
-    }, []);
+function HistoryWidget({ data }) {
     
     return (
         <>

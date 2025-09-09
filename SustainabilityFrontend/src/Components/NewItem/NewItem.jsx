@@ -3,13 +3,13 @@ import styles from './NewItem.module.css'
 import Dropdown from '../Dropdown/Dropdown.jsx'
 import WaterBottleItem from '../AddItems/WaterBottleItem.jsx'
 
-function NewItem() {
+function NewItem({ updateFunc }) {
     const [itemType, setItemType] = useState("Water Bottle")
     const [item, setItem] = useState(<></>)
 
     useEffect(() => {
         let itemMap = {
-            "Water Bottle": <WaterBottleItem/>
+            "Water Bottle": <WaterBottleItem updateFunc={updateFunc}/>
         }
 
         setItem(itemMap[itemType])

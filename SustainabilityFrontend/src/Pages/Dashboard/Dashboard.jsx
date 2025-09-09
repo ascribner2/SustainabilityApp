@@ -1,17 +1,16 @@
 import styles from './Dashboard.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import Navbar from '../../Components/Navbar/Navbar.jsx'
 import OffsetWidget from '../../Components/Offset/OffsetWidget.jsx'
 import NewItem from '../../Components/NewItem/NewItem.jsx'
 import HistoryWidget from '../../Components/History/HistoryWidget.jsx'
 
 function Dashboard() {
     const [updateData, setUpdateData] = useState(false)
+    const [offsetData, setOffsetData] = useState({"test":{}})
+    const [date, setDate] = useState("Annual")
     let navigate = useNavigate()
-    
-    function test() {
-        navigate("/login")
-    }
 
     // Authenticate
     useEffect(()=>{
@@ -20,17 +19,25 @@ function Dashboard() {
         }
     }, [])
 
+    // Whenever the date filter is changed or a new item is added
+    useEffect(()=>{
+        setOffsetData()
+    }, [updateData, date])
+
     return (
+        <>
+        <Navbar />
         <div className={styles.Body}>
             <div className={styles.LeftCol}>
-                <OffsetWidget />
-                <NewItem />
+                <OffsetWidget data={offsetData} dateFunc={setDate} date={date} />
+                <NewItem updateFunc={setUpdateData} />
             </div>
 
             <div className={styles.RightCol}>
-                <HistoryWidget />
+                <HistoryWidget data={offsetData} />
             </div>
         </div>
+        </>
     )
 }
 
