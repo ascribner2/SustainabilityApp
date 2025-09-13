@@ -1,19 +1,23 @@
 package main
 
 import (
+	"database/sql"
 	"net/http"
 
-	"github.com/ascribner/sustainabilityapp/services/user"
+	"github.com/ascribner/sustainabilityapp/internal/handlers/user"
+	"github.com/ascribner/sustainabilityapp/internal/repos"
+	"github.com/ascribner/sustainabilityapp/internal/services"
 )
 
 type Server struct {
 	host    string
 	port    string
 	handler *http.ServeMux
+	db      *sql.DB
 }
 
 // Creates a new instance of the server struct
-func NewServer(host string, port string, handler *http.ServeMux) *Server {
+func NewServer(host string, port string, handler *http.ServeMux, db *sql.DB) *Server {
 	if host == "" {
 		host = "127.0.0.1"
 	}
@@ -30,6 +34,7 @@ func NewServer(host string, port string, handler *http.ServeMux) *Server {
 		host:    host,
 		port:    port,
 		handler: handler,
+		db:      db,
 	}
 }
 
@@ -38,7 +43,9 @@ func (s *Server) Run() {
 	var address = s.host + ":" + s.port
 
 	//Routes
-	userHandler := user.NewUserHandler()
+	userRepo := repos.NewUserRepo(s.db)
+	userService := services.NewUserService(userRepo)
+	userHandler := user.NewUserHandler(userService)
 	userHandler.RegisterRoutes(s.handler)
 
 	// Start
