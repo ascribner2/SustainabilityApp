@@ -3,6 +3,7 @@ package user
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/ascribner/sustainabilityapp/internal/entity"
@@ -27,11 +28,20 @@ func (h *Handler) registerUser(rw http.ResponseWriter, r *http.Request) {
 	newUser := &entity.NewUser{}
 
 	dec := json.NewDecoder(r.Body)
-	dec.Decode(newUser)
+	if err := dec.Decode(newUser); err != nil {
+		log.Print(err)
+		rw.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	fmt.Print(newUser)
 
-	// h.s.RegisterUser()
+	err := h.s.RegisterUser(newUser)
+	if err != nil {
+		log.Print(err)
+		rw.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	rw.WriteHeader(http.StatusOK)
 	rw.Write([]byte("User Registered"))

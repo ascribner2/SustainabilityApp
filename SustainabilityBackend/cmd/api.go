@@ -39,7 +39,7 @@ func NewServer(host string, port string, handler *http.ServeMux, db *sql.DB) *Se
 }
 
 // Configures the routes and starts the server
-func (s *Server) Run() {
+func (s *Server) Run() error {
 	var address = s.host + ":" + s.port
 
 	//Routes
@@ -49,5 +49,9 @@ func (s *Server) Run() {
 	userHandler.RegisterRoutes(s.handler)
 
 	// Start
-	http.ListenAndServe(address, s.handler)
+	err := http.ListenAndServe(address, s.handler)
+	if err != nil {
+		return err
+	}
+	return nil
 }

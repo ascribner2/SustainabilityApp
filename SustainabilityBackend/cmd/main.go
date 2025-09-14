@@ -4,27 +4,14 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"os"
 
+	"github.com/ascribner/sustainabilityapp/env"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Loads env variables into enviroment
-	godotenv.Load()
-
-	// Get env variables
-	serverHost := os.Getenv("SERVER_HOST")
-	serverPort := os.Getenv("SERVER_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	appDB := os.Getenv("APP_DB")
-
 	// Database init
-	var dsn string = dbUser + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + appDB
+	var dsn string = env.EnvConfig.DbUser + ":" + env.EnvConfig.DbPassword + "@tcp(" + env.EnvConfig.DbHost + ":" + env.EnvConfig.DbPort + ")/" + env.EnvConfig.AppDB
 
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
@@ -36,10 +23,17 @@ func main() {
 		log.Fatal(err)
 	}
 
+	log.Print("Connected to DB")
+
 	// Router
 	mux := http.NewServeMux()
 
-	server := NewServer(serverHost, serverPort, mux, db)
+	// Server
+	server := NewServer(env.EnvConfig.ServerHost, env.EnvConfig.ServerPort, mux, db)
 
-	server.Run()
+	log.Print("Running on " + env.EnvConfig.ServerHost + ":" + env.EnvConfig.ServerPort)
+	err = server.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
