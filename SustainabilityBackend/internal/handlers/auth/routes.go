@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/ascribner/sustainabilityapp/internal/entity"
@@ -9,12 +10,12 @@ import (
 )
 
 type Handler struct {
-	s services.UserService
+	s services.AuthService
 }
 
-func NewUserHandler(us services.UserService) *Handler {
+func NewUserHandler(as services.AuthService) *Handler {
 	return &Handler{
-		s: us,
+		s: as,
 	}
 }
 
@@ -28,4 +29,16 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 	dec := json.NewDecoder(r.Body)
 	dec.Decode(user)
 
+	authenticated, err := h.s.UserLogin(user)
+	if authenticated && err == nil {
+		enc := json.NewEncoder(rw)
+		if err = enc.Encode(map[string]string{"response": "JWT"}); err != nil {
+			log.Print(err)
+			rw.WriteHeader(http.StatusBadRequest)
+		}
+		rw.WriteHeader(http.StatusOK)
+	} else {
+		log.Print(err)
+		rw.WriteHeader(http.StatusBadRequest)
+	}
 }

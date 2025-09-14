@@ -1,9 +1,13 @@
 package repos
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"github.com/ascribner/sustainabilityapp/util"
+)
 
 type AuthRepo interface {
-	getPassword(string) (string, error)
+	GetPassword(string) (string, error)
 }
 
 type AuthRepoImpl struct {
@@ -16,19 +20,14 @@ func NewAuthRepo(db *sql.DB) AuthRepo {
 	}
 }
 
-func (ar *AuthRepoImpl) getPassword(email string) (string, error) {
+func (ar *AuthRepoImpl) GetPassword(email string) (string, error) {
 	results, err := ar.db.Query("SELECT password FROM users where email = ?", email)
 	if err != nil {
 		return "", err
 	}
+	defer results.Close()
 
-	rows := map[int64]string{}
-
-	for i := 0; results.Next(); i++ {
-		var row string
-		results.Scan(&row)
-		rows[int64(i)] = row
-	}
+	rows := util.GetDbResultsSlice[string](results, 1)
 
 	return rows[0], nil
 }
