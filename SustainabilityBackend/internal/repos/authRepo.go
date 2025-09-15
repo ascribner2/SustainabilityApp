@@ -2,8 +2,6 @@ package repos
 
 import (
 	"database/sql"
-
-	"github.com/ascribner/sustainabilityapp/util"
 )
 
 type AuthRepo interface {
@@ -21,13 +19,18 @@ func NewAuthRepo(db *sql.DB) AuthRepo {
 }
 
 func (ar *AuthRepoImpl) GetPassword(email string) (string, error) {
+	var passHash string
+
 	results, err := ar.db.Query("SELECT password FROM users where email = ?", email)
 	if err != nil {
 		return "", err
 	}
 	defer results.Close()
 
-	rows := util.GetDbResultsSlice[string](results, 1)
+	results.Next()
+	if err := results.Scan(&passHash); err != nil {
+		return "", err
+	}
 
-	return rows[0], nil
+	return passHash, nil
 }

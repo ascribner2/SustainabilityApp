@@ -13,7 +13,7 @@ type Handler struct {
 	s services.AuthService
 }
 
-func NewUserHandler(as services.AuthService) *Handler {
+func NewAuthHandler(as services.AuthService) *Handler {
 	return &Handler{
 		s: as,
 	}
@@ -35,6 +35,7 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 		if err = enc.Encode(map[string]string{"response": "JWT"}); err != nil {
 			log.Print(err)
 			rw.WriteHeader(http.StatusBadRequest)
+			return
 		}
 		rw.WriteHeader(http.StatusOK)
 	} else {

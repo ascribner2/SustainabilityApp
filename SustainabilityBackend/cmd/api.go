@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"net/http"
 
+	"github.com/ascribner/sustainabilityapp/internal/handlers/auth"
+	"github.com/ascribner/sustainabilityapp/internal/handlers/item"
 	"github.com/ascribner/sustainabilityapp/internal/handlers/user"
 	"github.com/ascribner/sustainabilityapp/internal/repos"
 	"github.com/ascribner/sustainabilityapp/internal/services"
@@ -47,6 +49,16 @@ func (s *Server) Run() error {
 	userService := services.NewUserService(userRepo)
 	userHandler := user.NewUserHandler(userService)
 	userHandler.RegisterRoutes(s.handler)
+
+	authRepo := repos.NewAuthRepo(s.db)
+	authService := services.NewAuthService(authRepo)
+	authHandler := auth.NewAuthHandler(authService)
+	authHandler.RegisterRoutes(s.handler)
+
+	itemRepo := repos.NewItemRepo(s.db)
+	itemService := services.NewItemService(itemRepo)
+	itemHandler := item.NewItemHandler(itemService)
+	itemHandler.RegisterRoutes(s.handler)
 
 	// Start
 	err := http.ListenAndServe(address, s.handler)
