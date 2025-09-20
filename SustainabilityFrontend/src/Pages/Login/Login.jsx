@@ -1,23 +1,37 @@
 import styles from "./Login.module.css"
 import {useNavigate} from 'react-router-dom'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import axios from 'axios'
 
 function Login() {
     const [invalid, setInvalid] = useState(false)
+    const [loginData, setLoginData] = useState(null)
     let navigate = useNavigate();
     
 
-    function login(LoginData) {
+    async function login(LoginData) {
         let username = LoginData.get("username");
         let password = LoginData.get("password");
 
         console.log(username, password);
-        if (username = "test" && password == "Test") {
-            navigate('/')
-        } else {
-            setInvalid(true)
-        }
+        let data = await axios.post('http://127.0.0.1:8080/login', {
+            "username": username,
+            "password": password
+        })
+
+        setLoginData(data)
     }
+
+    useEffect(() => {
+        if (loginData !== null) {
+            if (loginData.data.status === 200) {
+                navigate('/')
+            } else {
+                setInvalid(true)
+            }
+        }
+
+    }, [loginData])
 
     return (
     <div className={styles.loginBackground}>

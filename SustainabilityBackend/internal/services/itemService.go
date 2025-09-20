@@ -7,7 +7,7 @@ import (
 
 type ItemService interface {
 	AddItem(entity.ItemEntity, string) error
-	GetItems(string) ([]entity.Item, error)
+	GetItems(string) ([]entity.Item, float64, error)
 }
 
 type ItemServiceImpl struct {
@@ -28,11 +28,13 @@ func (is *ItemServiceImpl) AddItem(item entity.ItemEntity, user_email string) er
 	return nil
 }
 
-func (is *ItemServiceImpl) GetItems(user_email string) ([]entity.Item, error) {
+func (is *ItemServiceImpl) GetItems(user_email string) ([]entity.Item, float64, error) {
 	items, err := is.ir.GetItems(user_email)
 	if err != nil {
-		return nil, err
+		return nil, 0.0, err
 	}
 
-	return items, nil
+	total := TotalItemOffset(items)
+
+	return items, total, nil
 }

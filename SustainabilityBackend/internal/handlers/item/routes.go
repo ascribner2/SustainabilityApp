@@ -40,7 +40,7 @@ func (h *Handler) addItem(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) getItems(rw http.ResponseWriter, r *http.Request) {
-	items, err := h.is.GetItems("test@test.com")
+	items, totalOffset, err := h.is.GetItems("test@test.com")
 	if err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
 		log.Print(err)
@@ -49,5 +49,5 @@ func (h *Handler) getItems(rw http.ResponseWriter, r *http.Request) {
 
 	rw.WriteHeader(http.StatusOK)
 	enc := json.NewEncoder(rw)
-	enc.Encode(map[string]any{"Items": items})
+	enc.Encode(map[string]any{"Items": items, "TotalOffset": totalOffset})
 }
