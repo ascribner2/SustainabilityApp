@@ -27,7 +27,9 @@ func (ar *AuthRepoImpl) GetPassword(email string) (string, error) {
 	}
 	defer results.Close()
 
-	results.Next()
+	if !results.Next() {
+		return "", sql.ErrNoRows
+	}
 	if err := results.Scan(&passHash); err != nil {
 		return "", err
 	}

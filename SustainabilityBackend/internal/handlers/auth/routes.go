@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"database/sql"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -30,14 +31,19 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 	dec.Decode(user)
 
 	authenticated, err := h.s.UserLogin(user)
+
+	// If the login matches and there are no errors encode and send JWT
 	if authenticated && err == nil {
 		enc := json.NewEncoder(rw)
-		if err = enc.Encode(map[string]string{"response": "JWT"}); err != nil {
+		if err = enc.Encode(map[string]string{"Token": "TestToken"}); err != nil {
 			log.Print(err)
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		rw.WriteHeader(http.StatusOK)
+	} else if err == sql.ErrNoRows || !authenticated {
+		rw.WriteHeader(http.StatusUnauthorized)
+		rw.Write([]byte("Invalid email or password"))
 	} else {
 		log.Print(err)
 		rw.WriteHeader(http.StatusBadRequest)

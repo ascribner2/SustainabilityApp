@@ -7,6 +7,7 @@ import (
 	"github.com/ascribner/sustainabilityapp/internal/handlers/auth"
 	"github.com/ascribner/sustainabilityapp/internal/handlers/item"
 	"github.com/ascribner/sustainabilityapp/internal/handlers/user"
+	"github.com/ascribner/sustainabilityapp/internal/middleware"
 	"github.com/ascribner/sustainabilityapp/internal/repos"
 	"github.com/ascribner/sustainabilityapp/internal/services"
 )
@@ -61,7 +62,7 @@ func (s *Server) Run() error {
 	itemHandler.RegisterRoutes(s.handler)
 
 	// Start
-	err := http.ListenAndServe(address, s.handler)
+	err := http.ListenAndServe(address, middleware.SecurityHeaders(s.handler))
 	if err != nil {
 		return err
 	}

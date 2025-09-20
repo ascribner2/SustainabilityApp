@@ -13,20 +13,23 @@ function Login() {
         let username = LoginData.get("username");
         let password = LoginData.get("password");
 
-        console.log(username, password);
-        let data = await axios.post('http://127.0.0.1:8080/login', {
-            "username": username,
-            "password": password
-        })
-
-        setLoginData(data)
+        try {
+            let data = await axios.post('http://127.0.0.1:8080/login', {
+                "email": username,
+                "password": password
+            })
+            setLoginData(data)
+        } catch (error) {
+            setLoginData(error.response.data)
+        }
     }
 
     useEffect(() => {
         if (loginData !== null) {
-            if (loginData.data.status === 200) {
+            if (loginData.status === 200) {
                 navigate('/')
             } else {
+                console.log(loginData)
                 setInvalid(true)
             }
         }
