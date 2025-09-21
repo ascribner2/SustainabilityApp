@@ -15,8 +15,8 @@ function OffsetWidget({ data, dateFunc, date }) {
             <p className={styles.Header}>CO<span className={styles.smallNumber}>2</span> Offset</p>
             <div className={styles.widgetBox}>
                 <Dropdown dropdownItems={["Annual", "Month", "Week", "Day"]} setFunc={dateFunc} selectedItem={date}/>
-                <p className={styles.offsetAmount}>{nums[date]}</p>
-                <p className={styles.offsetAmount}>Tons of CO₂</p>
+                <p className={styles.offsetAmount}>{data.toFixed(3)}</p>
+                <p className={styles.offsetAmount}>kgs of CO₂e</p>
             </div>
         </>
     )

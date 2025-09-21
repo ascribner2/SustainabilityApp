@@ -8,15 +8,7 @@ function HistoryWidget({ data }) {
         <>
             <p className={styles.Header}>History</p>
             <div className={styles.widgetBox}>
-                <HistoryEntry />
-                <HistoryEntry />
-                <HistoryEntry />
-                <HistoryEntry />
-                <HistoryEntry />
-                <HistoryEntry />
-                <HistoryEntry />
-                <HistoryEntry />
-                <HistoryEntry />
+                { data.map(item => <HistoryEntry item={item} />) }
             </div>
         </>
     )

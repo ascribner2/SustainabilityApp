@@ -5,10 +5,11 @@ import Navbar from '../../Components/Navbar/Navbar.jsx'
 import OffsetWidget from '../../Components/Offset/OffsetWidget.jsx'
 import NewItem from '../../Components/NewItem/NewItem.jsx'
 import HistoryWidget from '../../Components/History/HistoryWidget.jsx'
+import axios from 'axios'
 
 function Dashboard() {
     const [updateData, setUpdateData] = useState(false)
-    const [offsetData, setOffsetData] = useState({"test":{}})
+    const [offsetData, setOffsetData] = useState({"Items": [], "TotalOffset": 0.0})
     const [date, setDate] = useState("Annual")
     let navigate = useNavigate()
 
@@ -21,7 +22,18 @@ function Dashboard() {
 
     // Whenever the date filter is changed or a new item is added
     useEffect(()=>{
-        setOffsetData()
+        async function update() {
+            try {
+                let data = await axios.get("http://localhost:8080/getitems")
+
+                console.log(data.data)
+
+                setOffsetData(data.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        update()
     }, [updateData, date])
 
     return (
@@ -29,12 +41,12 @@ function Dashboard() {
         <Navbar />
         <div className={styles.Body}>
             <div className={styles.LeftCol}>
-                <OffsetWidget data={offsetData} dateFunc={setDate} date={date} />
+                <OffsetWidget data={offsetData["TotalOffset"]} dateFunc={setDate} date={date} />
                 <NewItem updateFunc={setUpdateData} />
             </div>
 
             <div className={styles.RightCol}>
-                <HistoryWidget data={offsetData} />
+                <HistoryWidget data={offsetData["Items"]} />
             </div>
         </div>
         </>

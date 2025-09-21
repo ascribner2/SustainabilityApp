@@ -1,13 +1,17 @@
 import styles from './HistoryEntry.module.css'
+import dayjs from 'dayjs'
+import { useRef } from 'react'
 
-function HistoryEntry() {
+function HistoryEntry({ item }) {
+    const time = useRef(dayjs(item.date).format('M/D/YY'))
+
     return (
     <div className={styles.container}>
         <div className={styles.topRow}>
-            <p className={styles.topText}>Water Bottle</p>
-            <p className={styles.topText}>.006 tons</p>
+            <p className={styles.topText}>{item.title}</p>
+            <p className={styles.topText}>{item.offset} kgs</p>
         </div>
-        <p className={styles.bottomText}>9/7/25</p>
+        <p className={styles.bottomText}>{time.current}</p>
     </div>
     )
 }
