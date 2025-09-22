@@ -24,6 +24,7 @@ func (h *Handler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("/getitems", h.getItems)
 }
 
+// Method for /additem route
 func (h *Handler) addItem(rw http.ResponseWriter, r *http.Request) {
 	item := entity.Item{}
 
@@ -39,8 +40,11 @@ func (h *Handler) addItem(rw http.ResponseWriter, r *http.Request) {
 	rw.WriteHeader(http.StatusOK)
 }
 
+// method for /getitems route
 func (h *Handler) getItems(rw http.ResponseWriter, r *http.Request) {
-	items, totalOffset, err := h.is.GetItems("test@test.com")
+	queryParams := r.URL.Query()
+
+	items, totalOffset, err := h.is.GetItems("test@test.com", queryParams.Get("timespan"))
 	if err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
 		log.Print(err)

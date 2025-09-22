@@ -20,7 +20,8 @@ function Login() {
             })
             setLoginData(data)
         } catch (error) {
-            setLoginData(error.response.data)
+            error.code !== "ERR_NETWORK" ? console.log(error.response.data) : console.log("Error Connecting To Server")
+            setLoginData({"status": 400})
         }
     }
 
@@ -29,7 +30,6 @@ function Login() {
             if (loginData.status === 200) {
                 navigate('/')
             } else {
-                console.log(loginData)
                 setInvalid(true)
             }
         }

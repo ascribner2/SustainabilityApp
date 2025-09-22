@@ -8,7 +8,7 @@ import (
 
 type ItemRepo interface {
 	InsertItem(string, float64, string, string) error
-	GetItems(string) ([]entity.Item, error)
+	GetItems(string, string) ([]entity.Item, error)
 }
 
 type ItemRepoImpl struct {
@@ -30,10 +30,12 @@ func (ir *ItemRepoImpl) InsertItem(title string, offset float64, date string, us
 	return nil
 }
 
-func (ir *ItemRepoImpl) GetItems(user_email string) ([]entity.Item, error) {
+func (ir *ItemRepoImpl) GetItems(user_email string, timespan string) ([]entity.Item, error) {
 	items := make([]entity.Item, 0, 10)
 
-	results, err := ir.db.Query("SELECT title, offset, date FROM items WHERE user_email = ?", user_email)
+	start_time, end_time := CalcTimes(timespan)
+
+	results, err := ir.db.Query("SELECT title, offset, date FROM items WHERE user_email = ? AND date >= ? AND date <= ? ORDER BY date DESC", user_email, start_time, end_time)
 	if err != nil {
 		return nil, err
 	}

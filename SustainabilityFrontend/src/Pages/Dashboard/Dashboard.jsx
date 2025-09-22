@@ -24,9 +24,9 @@ function Dashboard() {
     useEffect(()=>{
         async function update() {
             try {
-                let data = await axios.get("http://localhost:8080/getitems")
+                let data = await axios.get(`http://localhost:8080/getitems?timespan=${date}`)
 
-                console.log(data.data)
+                // console.log(data.data)
 
                 setOffsetData(data.data)
             } catch (error) {
@@ -41,12 +41,12 @@ function Dashboard() {
         <Navbar />
         <div className={styles.Body}>
             <div className={styles.LeftCol}>
-                <OffsetWidget data={offsetData["TotalOffset"]} dateFunc={setDate} date={date} />
+                <OffsetWidget data={offsetData} dateFunc={setDate} date={date} />
                 <NewItem updateFunc={setUpdateData} />
             </div>
 
             <div className={styles.RightCol}>
-                <HistoryWidget data={offsetData["Items"]} />
+                <HistoryWidget data={offsetData} />
             </div>
         </div>
         </>
