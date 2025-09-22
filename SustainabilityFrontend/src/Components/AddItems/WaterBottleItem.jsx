@@ -7,7 +7,7 @@ function WaterBottleItem({ updateFunc }) {
     async function addItem(inputData) {
         try {
             let ounces = inputData.get("ounces")
-            let timestamp = dayjs().format('YYYY-MM-DD hh:mm:ss')
+            let timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
             console.log(ounces)
 
