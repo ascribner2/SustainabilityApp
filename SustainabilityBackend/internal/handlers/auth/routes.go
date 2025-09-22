@@ -40,7 +40,6 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		rw.WriteHeader(http.StatusOK)
 	} else if err == sql.ErrNoRows || !authenticated {
 		rw.WriteHeader(http.StatusUnauthorized)
 		rw.Write([]byte("Invalid email or password"))
