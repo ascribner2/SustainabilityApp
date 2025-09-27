@@ -20,3 +20,11 @@ func SecurityHeaders(next http.Handler) http.Handler {
 		next.ServeHTTP(rw, r)
 	})
 }
+
+// TODO: implement this to authenticate a jwt token
+// Verifies that a JWT is valid
+func AuthenticateRoute(next http.HandlerFunc) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+
+	}
+}
