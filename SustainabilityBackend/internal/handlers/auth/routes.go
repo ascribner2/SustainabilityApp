@@ -22,6 +22,7 @@ func NewAuthHandler(as services.AuthService) *Handler {
 
 func (h *Handler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("/login", h.login)
+	r.HandleFunc("/verify", h.verify)
 }
 
 func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
@@ -47,4 +48,8 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 		log.Print(err)
 		rw.WriteHeader(http.StatusBadRequest)
 	}
+}
+
+func (h *Handler) verify(rw http.ResponseWriter, r *http.Request) {
+
 }
