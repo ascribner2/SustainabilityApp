@@ -26,5 +26,6 @@ func SecurityHeaders(next http.Handler) http.Handler {
 func AuthenticateRoute(next http.HandlerFunc) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 
+		next(rw, r)
 	}
 }

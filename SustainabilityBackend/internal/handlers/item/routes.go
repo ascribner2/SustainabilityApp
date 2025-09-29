@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/ascribner/sustainabilityapp/internal/entity"
+	"github.com/ascribner/sustainabilityapp/internal/middleware"
 	"github.com/ascribner/sustainabilityapp/internal/services"
 )
 
@@ -20,8 +21,8 @@ func NewItemHandler(is services.ItemService) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(r *http.ServeMux) {
-	r.HandleFunc("/additem", h.addItem)
-	r.HandleFunc("/getitems", h.getItems)
+	r.HandleFunc("/additem", middleware.AuthenticateRoute(h.addItem))
+	r.HandleFunc("/getitems", middleware.AuthenticateRoute(h.getItems))
 }
 
 // Method for /additem route

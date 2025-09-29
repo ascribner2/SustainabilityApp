@@ -14,6 +14,7 @@ type Config struct {
 	DbHost     string
 	DbPort     string
 	AppDB      string
+	JWTSecret  string
 }
 
 func NewConfig() Config {
@@ -28,6 +29,7 @@ func NewConfig() Config {
 		DbHost:     os.Getenv("DB_HOST"),
 		DbPort:     os.Getenv("DB_PORT"),
 		AppDB:      os.Getenv("APP_DB"),
+		JWTSecret:  os.Getenv("JWT_SECRET"),
 	}
 }
 

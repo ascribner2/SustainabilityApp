@@ -3,10 +3,12 @@ package auth
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/ascribner/sustainabilityapp/internal/entity"
+	"github.com/ascribner/sustainabilityapp/internal/middleware"
 	"github.com/ascribner/sustainabilityapp/internal/services"
 )
 
@@ -22,7 +24,8 @@ func NewAuthHandler(as services.AuthService) *Handler {
 
 func (h *Handler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("/login", h.login)
-	r.HandleFunc("/verify", h.verify)
+	r.HandleFunc("/verify", middleware.AuthenticateRoute(h.verify))
+	r.HandleFunc("/logout", h.logout)
 }
 
 func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
@@ -35,12 +38,14 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 
 	// If the login matches and there are no errors encode and send JWT
 	if authenticated && err == nil {
-		enc := json.NewEncoder(rw)
-		if err = enc.Encode(map[string]string{"Token": "TestToken"}); err != nil {
-			log.Print(err)
-			rw.WriteHeader(http.StatusBadRequest)
+		token, err := CreateJWT(user.GetEmail())
+		if err != nil {
+			log.Println(err)
+			rw.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+		tokenCookieStr := fmt.Sprintf("auth-token=%s; HttpOnly; Secure; Path=/", token)
+		rw.Header().Set("Set-Cookie", tokenCookieStr)
 	} else if err == sql.ErrNoRows || !authenticated {
 		rw.WriteHeader(http.StatusUnauthorized)
 		rw.Write([]byte("Invalid email or password"))
@@ -51,5 +56,9 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) verify(rw http.ResponseWriter, r *http.Request) {
+	rw.WriteHeader(http.StatusOK)
+}
 
+func (h *Handler) logout(rw http.ResponseWriter, r *http.Request) {
+	rw.Header().Set("Set-Cookie", "auth-token=; HttpOnly; Secure; Path=/; Max-Age=0")
 }
