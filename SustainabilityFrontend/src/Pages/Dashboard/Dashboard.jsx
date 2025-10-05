@@ -15,16 +15,23 @@ function Dashboard() {
 
     // Authenticate
     useEffect(()=>{
-        if (true) {
-            // navigate("/login")
+        async function verify() {
+            try {
+                await axios.get(`http://127.0.0.1:8080/verify`, { withCredentials: true })
+            } catch (error) {
+                console.log(error)
+                navigate("/login")
+            }
         }
+
+        verify()
     }, [])
 
     // Whenever the date filter is changed or a new item is added
     useEffect(()=>{
         async function update() {
             try {
-                let data = await axios.get(`http://localhost:8080/getitems?timespan=${date}`)
+                let data = await axios.get(`http://127.0.0.1:8080/getitems?timespan=${date}`, { withCredentials: true })
 
                 // console.log(data.data)
 

@@ -17,6 +17,8 @@ function Login() {
             let data = await axios.post('http://127.0.0.1:8080/login', {
                 "email": username,
                 "password": password
+            }, {
+                withCredentials: true
             })
             setLoginData(data)
         } catch (error) {

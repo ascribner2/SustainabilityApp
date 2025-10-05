@@ -15,11 +15,11 @@ function WaterBottleItem({ updateFunc }) {
             offsetCalc = (Math.round(offsetCalc * 1000) / 1000)
             offsetCalc = parseFloat(offsetCalc.toFixed(3))
 
-            let status = await axios.post('http://localhost:8080/additem', {
+            let status = await axios.post('http://127.0.0.1:8080/additem', {
                 "title": "Water Bottle",
                 "offset": offsetCalc,
                 "date": timestamp
-            })
+            }, { withCredentials: true })
 
 
             updateFunc((prev)=>{

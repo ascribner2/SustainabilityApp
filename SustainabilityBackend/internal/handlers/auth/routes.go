@@ -3,7 +3,6 @@ package auth
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -44,8 +43,14 @@ func (h *Handler) login(rw http.ResponseWriter, r *http.Request) {
 			rw.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		tokenCookieStr := fmt.Sprintf("auth-token=%s; HttpOnly; Secure; Path=/", token)
-		rw.Header().Set("Set-Cookie", tokenCookieStr)
+		http.SetCookie(rw, &http.Cookie{
+			Name:     "auth-token",
+			Value:    token,
+			Path:     "/",
+			HttpOnly: true,
+			SameSite: http.SameSiteLaxMode,
+			Secure:   false,
+		})
 	} else if err == sql.ErrNoRows || !authenticated {
 		rw.WriteHeader(http.StatusUnauthorized)
 		rw.Write([]byte("Invalid email or password"))
@@ -61,4 +66,13 @@ func (h *Handler) verify(rw http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) logout(rw http.ResponseWriter, r *http.Request) {
 	rw.Header().Set("Set-Cookie", "auth-token=; HttpOnly; Secure; Path=/; Max-Age=0")
+	http.SetCookie(rw, &http.Cookie{
+		Name:     "auth-token",
+		Value:    "",
+		Path:     "/",
+		HttpOnly: true,
+		MaxAge:   0,
+		SameSite: http.SameSiteLaxMode,
+		Secure:   false,
+	})
 }

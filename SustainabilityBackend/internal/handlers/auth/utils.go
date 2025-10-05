@@ -17,7 +17,7 @@ func CreateJWT(user_email string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	tokenStr, err := token.SignedString(env.EnvConfig.JWTSecret)
+	tokenStr, err := token.SignedString([]byte(env.EnvConfig.JWTSecret))
 
 	if err != nil {
 		return "", err

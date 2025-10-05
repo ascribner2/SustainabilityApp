@@ -28,11 +28,17 @@ func (h *Handler) RegisterRoutes(r *http.ServeMux) {
 // Method for /additem route
 func (h *Handler) addItem(rw http.ResponseWriter, r *http.Request) {
 	item := entity.Item{}
-
 	dec := json.NewDecoder(r.Body)
 	dec.Decode(&item)
 
-	if err := h.is.AddItem(&item, "test@test.com"); err != nil {
+	email, err := GetEmailFromContext(r.Context())
+	if err != nil {
+		rw.WriteHeader(http.StatusBadRequest)
+		log.Print(err)
+		return
+	}
+
+	if err := h.is.AddItem(&item, email); err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
 		log.Print(err)
 		return
@@ -45,7 +51,14 @@ func (h *Handler) addItem(rw http.ResponseWriter, r *http.Request) {
 func (h *Handler) getItems(rw http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
 
-	items, totalOffset, err := h.is.GetItems("test@test.com", queryParams.Get("timespan"))
+	email, err := GetEmailFromContext(r.Context())
+	if err != nil {
+		rw.WriteHeader(http.StatusBadRequest)
+		log.Print(err)
+		return
+	}
+
+	items, totalOffset, err := h.is.GetItems(email, queryParams.Get("timespan"))
 	if err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
 		log.Print(err)
