@@ -22,7 +22,7 @@ func CalcTimes(timespan string) (string, string) {
 
 	if timespan == "Week" {
 		weekday := now.Weekday()
-		weekdayOffset := int(weekday)
+		weekdayOffset := int(weekday) * -1
 		weekStart := now.AddDate(0, 0, weekdayOffset).Format("2006-01-02")
 
 		return fmt.Sprintf("%s 00:00:00", weekStart), now.Format("2006-01-02 15:04:05")
