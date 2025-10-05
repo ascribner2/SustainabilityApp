@@ -2,9 +2,11 @@ package services
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/ascribner/sustainabilityapp/internal/entity"
 	"github.com/ascribner/sustainabilityapp/internal/repos"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService interface {
@@ -26,7 +28,16 @@ func (us *UserServiceImpl) RegisterUser(nu entity.UserEntity) error {
 		return errors.New("invalid email or password")
 	}
 
-	if err := us.r.InsertUser(nu.GetEmail(), nu.GetPass()); err != nil {
+	// Make the email lowercase to make it easy to check against
+	lowerEmail := strings.ToLower(nu.GetEmail())
+
+	// Generate the hash for the password
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(nu.GetPass()), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	if err := us.r.InsertUser(lowerEmail, string(hashedPass)); err != nil {
 		return err
 	}
 

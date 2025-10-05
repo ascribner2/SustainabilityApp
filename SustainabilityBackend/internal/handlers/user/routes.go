@@ -2,7 +2,6 @@ package user
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -29,20 +28,19 @@ func (h *Handler) registerUser(rw http.ResponseWriter, r *http.Request) {
 
 	dec := json.NewDecoder(r.Body)
 	if err := dec.Decode(newUser); err != nil {
-		log.Print(err)
+		log.Println(err)
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
-	fmt.Print(newUser)
 
 	err := h.s.RegisterUser(newUser)
 	if err != nil {
-		log.Print(err)
+		log.Println(err)
 		rw.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
+	log.Printf("new user: %s %s", newUser.GetEmail(), newUser.GetPass())
 	rw.WriteHeader(http.StatusOK)
 	rw.Write([]byte("User Registered"))
 }
