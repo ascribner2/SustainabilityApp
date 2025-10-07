@@ -10,12 +10,12 @@ function Login() {
     
 
     async function login(LoginData) {
-        let username = LoginData.get("username");
+        let email = LoginData.get("email");
         let password = LoginData.get("password");
 
         try {
             let data = await axios.post('http://127.0.0.1:8080/login', {
-                "email": username,
+                "email": email,
                 "password": password
             }, {
                 withCredentials: true
@@ -45,16 +45,16 @@ function Login() {
                 <p className={styles.loginBoxHeader}>Login</p>
 
                 {/* Crendentials */}
-                <input className={styles.credentialBox} name="username" placeholder="Username"/>
+                <input className={styles.credentialBox} name="email" placeholder="Email"/>
 
                 <input type="password" className={styles.credentialBox} name="password" placeholder="Password"/>
 
-                {invalid ? <p className={styles.invalid}>Incorrect Username or Password</p> : <></>}
+                {invalid ? <p className={styles.invalid}>Incorrect Email or Password</p> : <></>}
 
                 <input type="submit" className={styles.loginButton} name="loginButton" value="Login"/>
 
                 {/* Register link */}
-                <p className={[styles.registerLinkPretext, styles.loginBoxText].join(" ")}>Don't have an account? <span className={styles.registerLink}>Register</span></p>
+                <p className={[styles.registerLinkPretext, styles.loginBoxText].join(" ")}>Don't have an account? <span onClick={() => navigate('/register')} className={styles.registerLink}>Register</span></p>
             </div>
         </form>
     </div>

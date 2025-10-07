@@ -1,5 +1,6 @@
 import './App.css'
 import Login from './Pages/Login/Login.jsx'
+import Register from './Pages/Register/Register.jsx'
 import Layout from './Pages/Layout/Layout.jsx'
 import Dashboard from './Pages/Dashboard/Dashboard.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -11,6 +12,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />}/>
+        <Route path="/register" element={<Register />}/>
         <Route element={<Layout/>}>
           <Route path="/" element={<Dashboard />}/>
         </Route>

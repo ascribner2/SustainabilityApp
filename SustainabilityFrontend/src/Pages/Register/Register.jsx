@@ -3,61 +3,56 @@ import {useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 
-
-// NEED TO IMPLEMENT REGISTER PAGE
-
 function Register() {
     const [invalid, setInvalid] = useState(false)
-    const [loginData, setLoginData] = useState(null)
+    const [registerData, setRegisterData] = useState(null)
     let navigate = useNavigate();
     
 
-    async function login(LoginData) {
-        let username = LoginData.get("username");
-        let password = LoginData.get("password");
+    async function Register(RegisterData) {
+        let email = RegisterData.get("email");
+        let password = RegisterData.get("password");
 
         try {
-            let data = await axios.post('http://127.0.0.1:8080/login', {
-                "email": username,
+            let data = await axios.post('http://127.0.0.1:8080/register', {
+                "email": email,
                 "password": password
-            }, {
-                withCredentials: true
             })
-            setLoginData(data)
+            setRegisterData(data)
         } catch (error) {
             error.code !== "ERR_NETWORK" ? console.log(error.response.data) : console.log("Error Connecting To Server")
-            setLoginData({"status": 400})
+            setRegisterData({"status": 400})
         }
     }
 
     useEffect(() => {
-        if (loginData !== null) {
-            if (loginData.status === 200) {
-                navigate('/')
+        if (registerData !== null) {
+            if (registerData.status === 200) {
+                navigate('/login')
             } else {
                 setInvalid(true)
             }
         }
 
-    }, [loginData])
+    }, [registerData])
 
     return (
-    <div className={styles.loginBackground}>
-        <form action={login}>
-            <div className={styles.loginBox}>
-                <p className={styles.loginBoxHeader}>Register</p>
+    <div className={styles.registerBackground}>
+        <form action={Register}>
+            <div className={styles.registerBox}>
+                <p className={styles.registerBoxHeader}>Register</p>
 
                 {/* Crendentials */}
-                <input className={styles.credentialBox} name="username" placeholder="Username"/>
+                <input className={styles.credentialBox} name="email" placeholder="Email"/>
 
                 <input type="password" className={styles.credentialBox} name="password" placeholder="Password"/>
 
-                {invalid ? <p className={styles.invalid}>Incorrect Username or Password</p> : <></>}
+                {invalid ? <p className={styles.invalid}>Invalid Email or Password</p> : <></>}
 
-                <input type="submit" className={styles.loginButton} name="loginButton" value="Register"/>
+                <input type="submit" className={styles.registerButton} name="registerButton" value="Register"/>
 
                 {/* Register link */}
-                <p className={[styles.registerLinkPretext, styles.loginBoxText].join(" ")}>Already have an account? <span className={styles.registerLink}>Login</span></p>
+                <p className={[styles.registerLinkPretext, styles.registerBoxText].join(" ")}>Already have an account? <span onClick={() => navigate('/login')} className={styles.registerLink}>Login</span></p>
             </div>
         </form>
     </div>
