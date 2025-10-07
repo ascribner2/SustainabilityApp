@@ -24,7 +24,7 @@ func NewUserService(r repos.UserRepo) UserService {
 }
 
 func (us *UserServiceImpl) RegisterUser(nu entity.UserEntity) error {
-	if len(nu.GetEmail()) <= 5 || len(nu.GetPass()) <= 5 {
+	if !VerifyEmail(nu.GetEmail()) || !VerifyPassword(nu.GetPass()) {
 		return errors.New("invalid email or password")
 	}
 
